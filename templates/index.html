@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malicious Link and File Scanner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="form-container">
+                <h2>Scan a URL</h2>
+                <form id="urlForm">
+                    <input type="text" id="urlInput" name="url" placeholder="Enter URL" required>
+                    <button type="submit">Scan URL</button>
+                </form>
+                <div id="urlResult"></div>
+            </div>
+
+            <div class="form-container">
+                <h2>Scan a File</h2>
+                <form id="fileForm" enctype="multipart/form-data">
+                    <input type="file" id="fileInput" name="file" required>
+                    <button type="submit">Scan File</button>
+                </form>
+                <div id="fileResult"></div>
+            </div>
+
+            <div class="form-container">
+                <h2>Scan Text</h2>
+                <form id="textForm">
+                    <textarea id="textInput" name="text" placeholder="Enter text" required></textarea>
+                    <button type="submit">Scan Text</button>
+                </form>
+                <div id="textResult"></div>
+            </div>
+        </div>
+
+        <div class="auth-container">
+            <div class="form-container">
+                <h2>Sign In</h2>
+                <form id="signInForm">
+                    <input type="email" id="emailSignIn" name="email" placeholder="Enter email" required>
+                    <input type="password" id="passwordSignIn" name="password" placeholder="Enter password" required>
+                    <button type="submit">Sign In</button>
+                    <div id="signInResult"></div>
+                </form>
+            </div>
+
+            <div class="form-container">
+                <h2>Sign Up</h2>
+                <form id="signUpForm">
+                    <input type="text" id="usernameSignUp" name="username" placeholder="Enter username" required>
+                    <input type="email" id="emailSignUp" name="email" placeholder="Enter email" required>
+                    <input type="password" id="passwordSignUp" name="password" placeholder="Enter password" required>
+                    <button type="submit">Sign Up</button>
+                    <div id="signUpResult"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#signInForm').submit(function(e) {
+                e.preventDefault();
+                var email = $('#emailSignIn').val();
+                var password = $('#passwordSignIn').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/signin',  // Update with your Flask route
+                    data: { email: email, password: password },
+                    success: function(response) {
+                        $('#signInResult').html('<p>Signed in successfully!</p>');
+                        // Redirect or handle success as needed
+                    },
+                    error: function(error) {
+                        $('#signInResult').html('<p>Error signing in: ' + error.responseJSON.error + '</p>');
+                    }
+                });
+            });
+
+            $('#signUpForm').submit(function(e) {
+                e.preventDefault();
+                var username = $('#usernameSignUp').val();
+                var email = $('#emailSignUp').val();
+                var password = $('#passwordSignUp').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup',  // Update with your Flask route
+                    data: { username: username, email: email, password: password },
+                    success: function(response) {
+                        $('#signUpResult').html('<p>Sign up successful! You can now sign in.</p>');
+                        // Optionally, auto sign-in the user after sign-up
+                    },
+                    error: function(error) {
+                        $('#signUpResult').html('<p>Error signing up: ' + error.responseJSON.error + '</p>');
+                    }
+                });
+            });
+
+            $('#urlForm').submit(function(e) {
+                e.preventDefault();
+                var url = $('#urlInput').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/scan_url',  // Update with your Flask route
+                    data: { url: url },
+                    success: function(response) {
+                        $('#urlResult').html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            $('#fileForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData();
+                formData.append('file', $('#fileInput')[0].files[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: '/scan_file',  // Update with your Flask route
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#fileResult').html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            $('#textForm').submit(function(e) {
+                e.preventDefault();
+                var text = $('#textInput').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/scan_text',  // Update with your Flask route
+                    data: { text: text },
+                    success: function(response) {
+                        $('#textResult').html('<pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

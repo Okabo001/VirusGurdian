@@ -1,0 +1,88 @@
+/* styles.css */
+body {
+    background-image: url('https://c8.alamy.com/comp/JBGPEY/cartoon-security-guard-with-flashlight-isolated-on-white-JBGPEY.jpg');
+    background-size: 50%; /* Adjust the size of the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns items to the start */
+    height: 100vh; /* Ensures the body covers the full viewport height */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.main-content, .auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-container {
+    align-items: flex-end; /* Aligns the auth container to the right end */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="file"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical; /* Allows the user to resize the textarea vertically */
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#signInResult, #signUpResult, #urlResult, #fileResult, #textResult {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px;
+    word-wrap: break-word;
+}
